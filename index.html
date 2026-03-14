@@ -3,26 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Meta tags for Canva to recognize the site -->
     <title>חזון אשדוד 2026: מטרופולין הדרום</title>
+    <meta property="og:title" content="חזון אשדוד 2026: דשבורד אינטראקטיבי">
+    <meta property="og:description" content="דוח אסטרטגי ויעדי פיתוח - מינהל הנדסה אשדוד">
+    <meta name="description" content="יעדי מינהל הנדסה אשדוד לשנת 2026">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap" rel="stylesheet">
     
-    <!-- Visualization & Content Choices: 
-         1. Permits Chart: Donut showing the 2025 actual breakdown (68% additions, etc).
-         2. Housing Potential: Bar chart with 21k/23k units targets.
-         3. Transport Hierarchy: Goal: Priority visualization without numbers.
-         4. Economy: Approved square meters (97k commerce, 49k hospitals).
-    -->
-
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
-
     <style>
         body {
             font-family: 'Heebo', sans-serif;
             background-color: #FDFBF7;
             color: #1F2937;
-            font-size: 1.6rem; /* פונט בסיס ענק להצגה במצגת */
+            font-size: 1.6rem; /* פונט ענק למצגות */
         }
         
         .chart-container {
@@ -36,14 +33,14 @@
         }
 
         .nav-item.active {
-            border-bottom: 10px solid #F59E0B;
+            border-bottom: 12px solid #F59E0B;
             color: #1E3A8A;
             font-weight: 900;
         }
 
         .card-hover:hover {
             transform: translateY(-5px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.15);
         }
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -52,19 +49,19 @@
         h1, h2, h3 { line-height: 1.1; }
         
         .animate-fade-in {
-            animation: fadeIn 0.5s ease-out forwards;
+            animation: fadeIn 0.6s ease-out forwards;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
-    <!-- Header Section -->
-    <header class="bg-white shadow-lg sticky top-0 z-50">
+    <!-- Header -->
+    <header class="bg-white shadow-xl sticky top-0 z-50">
         <div class="container mx-auto px-8 py-10 flex justify-between items-center">
             <div>
                 <h1 class="text-6xl md:text-8xl font-black text-blue-900 tracking-tight">אשדוד 2026</h1>
@@ -79,10 +76,10 @@
         <nav class="bg-blue-50 border-t-2 border-blue-100 overflow-x-auto no-scrollbar">
             <div class="container mx-auto px-8">
                 <ul class="flex space-x-reverse space-x-16 md:space-x-24 min-w-max">
-                    <li><button onclick="app.navigate('overview')" id="nav-overview" class="nav-item py-8 px-6 text-3xl md:text-4xl text-gray-600 hover:text-blue-800 transition-all">סיכום 2025</button></li>
-                    <li><button onclick="app.navigate('housing')" id="nav-housing" class="nav-item py-8 px-6 text-3xl md:text-4xl text-gray-600 hover:text-blue-800 transition-all">בינוי ודיור</button></li>
-                    <li><button onclick="app.navigate('transport')" id="nav-transport" class="nav-item py-8 px-6 text-3xl md:text-4xl text-gray-600 hover:text-blue-800 transition-all">תחבורה</button></li>
-                    <li><button onclick="app.navigate('economy')" id="nav-economy" class="nav-item py-8 px-6 text-3xl md:text-4xl text-gray-600 hover:text-blue-800 transition-all">כלכלה וחוף</button></li>
+                    <li><button onclick="app.navigate('overview')" id="nav-overview" class="nav-item py-10 px-8 text-3xl md:text-4xl text-gray-600 hover:text-blue-800 transition-all">סיכום 2025</button></li>
+                    <li><button onclick="app.navigate('housing')" id="nav-housing" class="nav-item py-10 px-8 text-3xl md:text-4xl text-gray-600 hover:text-blue-800 transition-all">בינוי ודיור</button></li>
+                    <li><button onclick="app.navigate('transport')" id="nav-transport" class="nav-item py-10 px-8 text-3xl md:text-4xl text-gray-600 hover:text-blue-800 transition-all">תחבורה</button></li>
+                    <li><button onclick="app.navigate('economy')" id="nav-economy" class="nav-item py-10 px-8 text-3xl md:text-4xl text-gray-600 hover:text-blue-800 transition-all">כלכלה וחוף</button></li>
                 </ul>
             </div>
         </nav>
@@ -93,7 +90,7 @@
         <!-- Hero: 500k Target -->
         <div class="bg-gradient-to-l from-blue-950 to-blue-800 rounded-[4rem] p-16 md:p-24 mb-20 text-white shadow-2xl relative overflow-hidden">
             <div class="relative z-10">
-                <h2 class="text-6xl md:text-[6rem] font-black mb-10">יעד: 500,000 תושבים</h2>
+                <h2 class="text-6xl md:text-[6.5rem] font-black mb-10">יעד: 500,000 תושבים</h2>
                 <p class="text-4xl font-light italic leading-relaxed opacity-95 max-w-5xl">
                     "אשדוד הופכת למטרופולין חברתי ותעסוקתי מהגדולים במדינה. עדכון תוכנית המתאר משקף את עוצמת הפיתוח המתוכננת."
                 </p>
@@ -101,11 +98,11 @@
             <div class="absolute -bottom-20 -left-20 w-96 h-96 bg-blue-500 opacity-20 rounded-full blur-3xl"></div>
         </div>
 
-        <!-- View: Overview -->
+        <!-- Section: Overview -->
         <section id="view-overview" class="view-section animate-fade-in block">
             <div class="mb-16">
-                <h3 class="text-6xl font-bold text-gray-800 mb-8">ביצועי המינהל (נתוני 2025)</h3>
-                <p class="text-4xl text-gray-600 max-w-5xl leading-relaxed">סיכום שנתי המציג תנופת תכנון ורישוי חסרת תקדים.</p>
+                <h3 class="text-6xl font-bold text-gray-800 mb-8">ביצועי המינהל (נתוני אמת 2025)</h3>
+                <p class="text-4xl text-gray-600 max-w-5xl leading-relaxed">סיכום שנתי המציג תנופת תכנון ורישוי חסרת תקדים בשיתוף כלל האגפים.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
@@ -143,7 +140,7 @@
                     <ul class="space-y-12">
                         <li class="flex items-center">
                             <span class="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-3xl font-bold ml-8 flex-shrink-0">A</span>
-                            <span class="text-3xl text-gray-700"><strong>1,074</strong> ממ"דים אושרו (תמ"א 38).</span>
+                            <span class="text-3xl text-gray-700"><strong>1,074</strong> ממ"דים אושרו בתמ"א 38.</span>
                         </li>
                         <li class="flex items-center">
                             <span class="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-3xl font-bold ml-8 flex-shrink-0">B</span>
@@ -158,21 +155,21 @@
             </div>
         </section>
 
-        <!-- View: Housing -->
+        <!-- Section: Housing -->
         <section id="view-housing" class="view-section hidden animate-fade-in">
             <div class="flex flex-col md:flex-row gap-20 items-start">
                 <div class="md:w-1/2">
                     <h3 class="text-6xl font-bold text-gray-800 mb-10">התחדשות עירונית ודיור</h3>
                     <p class="text-4xl text-gray-600 mb-16 leading-relaxed">
-                        סה"כ מוצעות כ-<strong>21,636</strong> יח"ד במתחמי פינוי בינוי. האסטרטגיה העירונית נשענת על עירוב שימושים וציפוף חכם.
+                        סה"כ מוצעות כ-<strong>21,636</strong> יח"ד במתחמי פינוי בינוי. האסטרטגיה העירונית נשענת על עירוב שימושים וציפוף חכם לאורך צירי המתע"ן.
                     </p>
                     
                     <div class="grid grid-cols-1 gap-10">
-                        <div class="bg-white p-12 rounded-3xl shadow-sm border-r-[20px] border-orange-400">
+                        <div class="bg-white p-12 rounded-3xl shadow-sm border-r-[25px] border-orange-400">
                             <h5 class="text-4xl font-black">פינוי בינוי</h5>
                             <p class="text-3xl text-gray-500 mt-4">17,171 יח"ד תוספתיות בתכנון.</p>
                         </div>
-                        <div class="bg-white p-12 rounded-3xl shadow-sm border-r-[20px] border-blue-400">
+                        <div class="bg-white p-12 rounded-3xl shadow-sm border-r-[25px] border-blue-400">
                             <h5 class="text-4xl font-black">הסכם גג</h5>
                             <p class="text-3xl text-gray-500 mt-4">23,999 יח"ד במתחמי הסכם הגג.</p>
                         </div>
@@ -188,12 +185,12 @@
             </div>
         </section>
 
-        <!-- View: Transport -->
+        <!-- Section: Transport -->
         <section id="view-transport" class="view-section hidden animate-fade-in">
             <div class="text-center max-w-5xl mx-auto mb-20">
                 <h3 class="text-6xl font-bold text-gray-800 mb-10">מהפכת הניידות 2026</h3>
                 <p class="text-4xl text-gray-600 leading-relaxed">
-                    תעדוף הולכי רגל ורוכבי אופניים. פריסה מסיבית של עמדות טעינה וחיבור לרשת הדרכים הלאומית.
+                    תעדוף הולכי רגל ורוכבי אופניים. פריסה מסיבית של עמדות טעינה וחיבור רשת הדרכים העירונית לזו הלאומית.
                 </p>
             </div>
 
@@ -205,11 +202,11 @@
                     </div>
                 </div>
                 <div class="flex flex-col gap-10 justify-center">
-                    <div class="bg-green-100 p-12 rounded-[3rem] border-r-[15px] border-green-500">
+                    <div class="bg-green-100 p-12 rounded-[3rem] border-r-[20px] border-green-500">
                         <h5 class="text-4xl font-black text-green-900 mb-4">תשתיות טעינה</h5>
                         <p class="text-3xl text-green-800">הוספת עמדות טעינה ציבוריות בכל רחבי העיר.</p>
                     </div>
-                    <div class="bg-orange-100 p-12 rounded-[3rem] border-r-[15px] border-orange-500">
+                    <div class="bg-orange-100 p-12 rounded-[3rem] border-r-[20px] border-orange-500">
                         <h5 class="text-4xl font-black text-orange-900 mb-4">בטיחות הולכי רגל</h5>
                         <p class="text-3xl text-orange-800">שיפור צמתים והוספת שבילי אופניים מופרדים.</p>
                     </div>
@@ -217,22 +214,22 @@
             </div>
         </section>
 
-        <!-- View: Economy -->
+        <!-- Section: Economy -->
         <section id="view-economy" class="view-section hidden animate-fade-in">
             <h3 class="text-6xl font-bold text-gray-800 mb-16">תעסוקה וחוף הים</h3>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
                 <div class="bg-white p-16 rounded-[4rem] shadow-sm border border-gray-100">
-                    <h4 class="text-4xl font-black text-gray-800 mb-12">אישור שטחי מסחר ומלונאות</h4>
+                    <h4 class="text-4xl font-black text-gray-800 mb-12 text-center">אישור שטחי מסחר ומלונאות</h4>
                     <div class="chart-container">
                         <canvas id="economyChart"></canvas>
                     </div>
                 </div>
                 <div class="space-y-12">
-                    <div class="bg-white p-12 rounded-[3rem] shadow-xl border-t-[20px] border-cyan-500">
+                    <div class="bg-white p-12 rounded-[3rem] shadow-xl border-t-[25px] border-cyan-500">
                         <h4 class="text-4xl font-black mb-6">הטיילת והריביירה</h4>
                         <p class="text-3xl text-gray-600 leading-relaxed">תכנון אלפי חדרי מלון ויצירת טיילת פעילה מהיפות בים התיכון.</p>
                     </div>
-                    <div class="bg-white p-12 rounded-[3rem] shadow-xl border-t-[20px] border-blue-900">
+                    <div class="bg-white p-12 rounded-[3rem] shadow-xl border-t-[25px] border-blue-900">
                         <h4 class="text-4xl font-black mb-6">עיר נמל ותעסוקה</h4>
                         <p class="text-3xl text-gray-600 leading-relaxed">הרחבת אזורי התעסוקה בסמוך לתשתיות תחבורה ליצירת אלפי משרות.</p>
                     </div>
@@ -245,7 +242,7 @@
     <footer class="bg-gray-900 text-gray-400 py-20 mt-auto">
         <div class="container mx-auto px-8 text-center">
             <p class="text-4xl font-black text-white mb-6">מינהל הנדסה אשדוד - מובילים את המטרופולין</p>
-            <p class="text-2xl">נתונים מעודכנים | 2025-2026</p>
+            <p class="text-2xl font-bold uppercase tracking-widest">נתונים מעודכנים | 2025-2026</p>
         </div>
     </footer>
 
@@ -262,15 +259,15 @@
         };
 
         document.addEventListener('DOMContentLoaded', () => {
-            Chart.defaults.font.size = 24;
+            Chart.defaults.font.size = 26;
             Chart.defaults.font.weight = 'bold';
             Chart.defaults.color = '#1F2937';
 
-            // 1. Permits Chart
+            // 1. Permits Breakdown (Actual 2025 data)
             new Chart(document.getElementById('permitChart'), {
                 type: 'doughnut',
                 data: {
-                    labels: ['תוספות ושינויים', 'בנייה חדשה', 'ממ"דים', 'תמ"א 38', 'שימוש חורג'],
+                    labels: ['תוספות ושינויים (68%)', 'בנייה חדשה (10%)', 'ממ"דים (10%)', 'תמ"א 38 (7%)', 'שימוש חורג (5%)'],
                     datasets: [{
                         data: [68, 10, 10, 7, 5],
                         backgroundColor: ['#1E3A8A', '#F59E0B', '#10B981', '#8B5CF6', '#EC4899'],
@@ -280,19 +277,21 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { position: 'bottom', rtl: true, labels: { font: { size: 26 }, padding: 30 } } }
+                    plugins: { 
+                        legend: { position: 'bottom', rtl: true, labels: { font: { size: 28 }, padding: 40 } } 
+                    }
                 }
             });
 
-            // 2. Housing Potential
+            // 2. Housing Potential (Comparison)
             new Chart(document.getElementById('housingChart'), {
                 type: 'bar',
                 data: {
                     labels: ['הסכם גג', 'פינוי בינוי', 'תמ"א 38', 'יזמות פרטית'],
                     datasets: [{
-                        data: [24000, 21600, 11600, 16000],
+                        data: [24000, 21636, 11599, 16000],
                         backgroundColor: '#3B82F6',
-                        borderRadius: 20
+                        borderRadius: 25
                     }]
                 },
                 options: {
@@ -300,13 +299,13 @@
                     maintainAspectRatio: false,
                     scales: {
                         y: { display: false },
-                        x: { ticks: { font: { size: 26 } }, grid: { display: false } }
+                        x: { ticks: { font: { size: 30 } }, grid: { display: false } }
                     },
                     plugins: { legend: { display: false } }
                 }
             });
 
-            // 3. Transport Hierarchy
+            // 3. Transport Hierarchy (Strategic Priority)
             new Chart(document.getElementById('transportChart'), {
                 type: 'bar',
                 data: {
@@ -314,19 +313,19 @@
                     datasets: [{
                         data: [10, 9, 8, 2],
                         backgroundColor: ['#F59E0B', '#10B981', '#3B82F6', '#9CA3AF'],
-                        borderRadius: 15
+                        borderRadius: 20
                     }]
                 },
                 options: {
                     indexAxis: 'y',
                     responsive: true,
                     maintainAspectRatio: false,
-                    scales: { x: { display: false }, y: { grid: { display: false }, ticks: { font: { size: 26 } } } },
+                    scales: { x: { display: false }, y: { grid: { display: false }, ticks: { font: { size: 30 } } } },
                     plugins: { legend: { display: false } }
                 }
             });
 
-            // 4. Economy
+            // 4. Economy (m2 breakdown)
             new Chart(document.getElementById('economyChart'), {
                 type: 'bar',
                 data: {
@@ -334,13 +333,13 @@
                     datasets: [{
                         data: [97581, 65057, 49039, 23343],
                         backgroundColor: '#1E3A8A',
-                        borderRadius: 15
+                        borderRadius: 20
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    scales: { y: { display: false }, x: { grid: { display: false }, ticks: { font: { size: 24 } } } },
+                    scales: { y: { display: false }, x: { grid: { display: false }, ticks: { font: { size: 28 } } } },
                     plugins: { legend: { display: false } }
                 }
             });
