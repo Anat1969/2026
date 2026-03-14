@@ -1,259 +1,572 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    <!-- Meta tags for Canva to recognize this as a valid Rich Embed -->
-    <title>Dashboard Ashdod 2026</title>
-    <meta property="og:title" content="חזון אשדוד 2026: דשבורד אינטראקטיבי">
-    <meta property="og:description" content="מינהל הנדסה אשדוד - יעדים אסטרטגיים">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://anat1969.github.io/2026/">
-    
-    <!-- Libraries -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap" rel="stylesheet">
-    
-    <style>
-        body {
-            font-family: 'Heebo', sans-serif;
-            background-color: #FDFBF7;
-            color: #1F2937;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            height: 100vh;
-            width: 100vw;
-        }
-        
-        .app-shell {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            width: 100vw;
-            border: 1px solid #e5e7eb;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>חזון מהנדס העיר — 2026 | עיריית אשדוד</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Frank+Ruhl+Libre:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:      #ffffff;
+    --navy:    #f1f4f8; 
+    --navy2:   #f8fafc; 
+    --gold:    #b08d4b; 
+    --gold-lt: #c8a86b;
+    --gold-dk: #8c7040;
+    --text:    #1e293b; 
+    --white:   #ffffff;
+    --muted:   #64748b;
+    --border:  rgba(176,141,75,0.25);
+    --header-h: 140px; /* גובה מוגדל עבור הלשוניות */
+  }
 
-        .chart-box {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            min-height: 200px;
-        }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        .nav-btn {
-            cursor: pointer;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-        }
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    font-family: 'Heebo', sans-serif;
+    color: var(--text);
+    overflow: hidden;
+  }
 
-        .nav-btn.active {
-            background-color: #1E3A8A;
-            color: white;
-            border-radius: 0.5rem;
-            font-weight: 900;
-        }
+  /* ── Main Header with Tabs ── */
+  .main-header {
+    background: var(--navy);
+    border-bottom: 2px solid var(--border);
+    height: var(--header-h);
+    display: flex; flex-direction: column;
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 1000;
+  }
 
-        .metric-box {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.75rem;
-            padding: 0.4rem;
-            text-align: center;
-        }
+  .header-top {
+    flex: 1;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 64px;
+  }
 
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        
-        @media (max-width: 600px) {
-            h1 { font-size: 1.2rem !important; }
-            .nav-btn { padding: 0.4rem 0.6rem !important; font-size: 0.8rem !important; }
-        }
-    </style>
+  .header-logo {
+    display: flex; flex-direction: column; align-items: flex-end; gap: 4px;
+  }
+
+  .header-city {
+    font-size: 14px; letter-spacing: 4px;
+    color: var(--gold); font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .header-dept {
+    font-size: 16px; font-weight: 700;
+    color: var(--text); opacity: 0.8;
+  }
+
+  .header-vision-tag {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 22px; font-weight: 900;
+    color: var(--gold);
+    padding: 8px 32px;
+    border: 2px solid var(--gold);
+    border-radius: 6px;
+  }
+
+  /* ── Tabs Navigation ── */
+  .nav-tabs {
+    display: flex;
+    justify-content: center;
+    background: #fff;
+    border-top: 1px solid var(--border);
+    height: 50px;
+  }
+
+  .tab-item {
+    padding: 0 24px;
+    display: flex; align-items: center;
+    cursor: pointer;
+    font-size: 16px; font-weight: 700;
+    color: var(--muted);
+    transition: all 0.3s;
+    border-bottom: 3px solid transparent;
+    position: relative;
+  }
+
+  .tab-item:hover { color: var(--gold); background: rgba(176,141,75,0.05); }
+  .tab-item.active {
+    color: var(--gold);
+    border-bottom: 3px solid var(--gold);
+    background: rgba(176,141,75,0.08);
+  }
+
+  .tab-num {
+    font-family: 'Frank Ruhl Libre', serif;
+    margin-left: 8px; font-size: 14px; opacity: 0.6;
+  }
+
+  /* ── Slide Container ── */
+  .deck {
+    position: relative;
+    width: 100vw; height: calc(100vh - var(--header-h));
+    margin-top: var(--header-h);
+  }
+
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    opacity: 0; pointer-events: none;
+    transition: opacity .6s cubic-bezier(.4,0,.2,1);
+    background: var(--bg);
+  }
+
+  .slide.active { opacity: 1; pointer-events: all; }
+
+  /* ── Slide Body ── */
+  .slide-body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  /* ── Left Vision Panel ── */
+  .vision-panel {
+    background: var(--navy2);
+    border-left: 1px solid var(--border);
+    padding: 60px;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+
+  .vision-panel::after {
+    content: '"';
+    position: absolute; bottom: 40px; left: 40px;
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 260px; line-height: 1;
+    color: rgba(176,141,75,0.08);
+    pointer-events: none;
+  }
+
+  .vision-eyebrow {
+    font-size: 14px; letter-spacing: 5px;
+    color: var(--gold); font-weight: 700; margin-bottom: 32px;
+  }
+
+  .vision-headline {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: clamp(32px, 4.2vw, 56px);
+    font-weight: 900;
+    line-height: 1.25;
+    color: var(--text);
+  }
+
+  .vision-headline em { display: block; color: var(--gold); font-style: normal; }
+
+  .vision-author {
+    margin-top: 60px; padding-top: 32px;
+    border-top: 2px solid var(--border);
+  }
+
+  .author-name {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 22px; font-weight: 700;
+    color: var(--text);
+  }
+
+  .author-title { font-size: 14px; color: var(--muted); margin-top: 8px; }
+
+  /* ── Right Goal Panel ── */
+  .goal-panel {
+    padding: 60px 100px;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+
+  .goal-index {
+    display: flex; align-items: center; gap: 24px; margin-bottom: 48px;
+  }
+
+  .goal-num-circle {
+    width: 80px; height: 80px;
+    border: 3px solid var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 36px; font-weight: 900;
+    color: var(--gold);
+  }
+
+  .goal-category {
+    font-size: 16px; letter-spacing: 4px;
+    color: var(--gold); font-weight: 700;
+  }
+
+  .goal-title {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: clamp(60px, 8vw, 110px);
+    font-weight: 900;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 40px;
+    letter-spacing: -2px;
+  }
+
+  .goal-sentence {
+    font-size: clamp(24px, 2.5vw, 34px);
+    font-weight: 300;
+    color: var(--text);
+    opacity: 0.9;
+    line-height: 1.5;
+    margin-bottom: 60px;
+    max-width: 900px;
+    padding-right: 24px;
+    border-right: 5px solid var(--gold);
+  }
+
+  .goal-points { display: flex; flex-direction: column; gap: 24px; }
+
+  .point {
+    display: flex; align-items: flex-start; gap: 20px;
+    font-size: clamp(20px, 1.8vw, 26px);
+    color: var(--text); opacity: 0.8;
+    line-height: 1.5;
+  }
+
+  .point-dot {
+    width: 12px; height: 12px; border-radius: 3px;
+    background: var(--gold); flex-shrink: 0;
+    margin-top: 12px;
+  }
+
+  /* ── Cover Slide ── */
+  .slide-cover .slide-body { grid-template-columns: 1fr; }
+  .cover-inner {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 60px;
+  }
+
+  .cover-year {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: clamp(150px, 25vw, 350px);
+    font-weight: 900;
+    color: rgba(176,141,75,0.06);
+    position: absolute; top: 50%; transform: translateY(-50%);
+    letter-spacing: -15px; pointer-events: none;
+  }
+
+  .cover-title {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: clamp(60px, 9vw, 130px);
+    font-weight: 900; line-height: 1.1;
+    color: var(--text); margin-bottom: 40px; z-index: 1;
+  }
+  .cover-title em { color: var(--gold); font-style: normal; display: block; }
+
+  .cover-sub {
+    font-size: clamp(22px, 2.5vw, 36px);
+    font-weight: 300; color: var(--text); opacity: 0.7;
+    max-width: 1000px; z-index: 1; line-height: 1.6;
+  }
+
+  /* ── Nav Buttons ── */
+  .nav-btn {
+    position: fixed;
+    bottom: 40px;
+    width: 80px; height: 80px;
+    border: 2px solid var(--gold);
+    background: var(--white);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .25s;
+    z-index: 1100;
+    color: var(--gold);
+    font-size: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+
+  .nav-btn:hover { background: var(--gold); color: white; transform: scale(1.1); }
+  .nav-prev { right: 40px; }
+  .nav-next { left: 40px; }
+
+  /* ── Footer ── */
+  .slide-footer {
+    position: fixed; bottom: 0; width: 100%;
+    background: var(--navy);
+    padding: 0 64px; height: 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 14px; color: var(--muted);
+  }
+
+  /* ── Animations ── */
+  .slide.active .goal-title, .slide.active .cover-title { animation: fadeUp .6s ease both; }
+  .slide.active .goal-sentence { animation: fadeUp .6s .1s ease both; }
+  .slide.active .goal-points { animation: fadeUp .6s .2s ease both; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
 </head>
 <body>
 
-    <div class="app-shell">
-        <!-- Header קומפקטי -->
-        <header class="bg-white border-b px-4 py-2 flex justify-between items-center shadow-sm">
-            <div>
-                <h1 class="text-2xl md:text-3xl font-black text-blue-900 leading-tight">אשדוד 2026</h1>
-                <p class="text-[9px] text-gray-500 font-bold uppercase tracking-widest">מינהל ההנדסה | דוח אסטרטגי</p>
-            </div>
-            <div class="text-left border-r pr-3 border-gray-200">
-                <p class="text-xs md:text-sm font-black text-gray-700 leading-none">אדר' איאד בלעום</p>
-                <p class="text-[8px] text-gray-400 font-bold">מהנדס העיר</p>
-            </div>
-        </header>
-        
-        <!-- Tabs Navigation -->
-        <nav class="bg-blue-50/40 p-1 border-b overflow-x-auto no-scrollbar">
-            <ul class="flex space-x-reverse space-x-1 justify-center min-w-max">
-                <li><button onclick="app.navigate('overview')" id="nav-overview" class="nav-btn py-1.5 px-4 text-sm font-bold text-gray-600 active">סיכום 2025</button></li>
-                <li><button onclick="app.navigate('housing')" id="nav-housing" class="nav-btn py-1.5 px-4 text-sm font-bold text-gray-600">בינוי ודיור</button></li>
-                <li><button onclick="app.navigate('transport')" id="nav-transport" class="nav-btn py-1.5 px-4 text-sm font-bold text-gray-600">תחבורה</button></li>
-                <li><button onclick="app.navigate('economy')" id="nav-economy" class="nav-btn py-1.5 px-4 text-sm font-bold text-gray-600">כלכלה וחוף</button></li>
-            </ul>
-        </nav>
-
-        <main id="content-display" class="flex-grow overflow-y-auto p-4 no-scrollbar">
-            <!-- Content will be injected by JS -->
-        </main>
-        
-        <footer class="bg-gray-100 border-t py-1.5 px-4 text-center">
-            <p class="text-[7px] font-bold text-gray-400 uppercase tracking-widest leading-none">נתוני אמת אשדוד | עודכן מרץ 2025</p>
-        </footer>
+<!-- Header with Tabs -->
+<header class="main-header">
+  <div class="header-top">
+    <div class="header-logo">
+      <div class="header-city">עיריית אשדוד</div>
+      <div class="header-dept">מינהל הנדסת עיר</div>
     </div>
+    <div class="header-vision-tag">חזון אסטרטגי 2026</div>
+    <div id="active-slide-num" style="font-size: 18px; font-weight: 700; color: var(--muted);">01 / 07</div>
+  </div>
+  <nav class="nav-tabs">
+    <div class="tab-item active" onclick="goTo(0)"><span class="tab-num">00</span>שער</div>
+    <div class="tab-item" onclick="goTo(1)"><span class="tab-num">01</span>מגורים</div>
+    <div class="tab-item" onclick="goTo(2)"><span class="tab-num">02</span>קהילות</div>
+    <div class="tab-item" onclick="goTo(3)"><span class="tab-num">03</span>תחבורה</div>
+    <div class="tab-item" onclick="goTo(4)"><span class="tab-num">04</span>תעסוקה</div>
+    <div class="tab-item" onclick="goTo(5)"><span class="tab-num">05</span>תיירות</div>
+    <div class="tab-item" onclick="goTo(6)"><span class="tab-num">06</span>ניהול</div>
+  </nav>
+</header>
 
-    <script>
-        /**
-         * מרכז הנתונים (קל לעדכון)
-         */
-        const DASHBOARD_DATA = {
-            plansInTreatment: 153,
-            infoRequests: 798,
-            permitsOpened: 491,
-            startsApproved: 168,
-            permitsBreakdown: [68, 10, 10, 7, 5],
-            housing: {
-                roof: 24000,
-                urban: 21636,
-                private: 16185,
-                tama: 11599
-            },
-            economy: {
-                industry: 97581,
-                public: 65057,
-                hospitals: 49039,
-                hotels: 23343
-            }
-        };
+<div class="deck" id="deck">
 
-        const app = {
-            currentView: 'overview',
+  <!-- ══════════════════════════════ שער ══════════════════════════════ -->
+  <div class="slide slide-cover active" data-idx="0">
+    <div class="slide-body">
+      <div class="cover-inner">
+        <div class="cover-year">2026</div>
+        <div class="cover-title">
+          מטרות ויעדים
+          <em>לשנת 2026</em>
+        </div>
+        <div class="cover-sub">
+          אשדוד בדרך להפוך למטרופולין חברתי ותעסוקתי —<br>
+          עיר של איכות חיים, צמיחה ופיתוח לדורות הבאים
+        </div>
+        <div style="margin-top: 80px; text-align: center;">
+          <div style="font-size: 28px; font-weight: 700; color: var(--gold-dk);">אדריכל איאד יוסף בלעום</div>
+          <div style="font-size: 18px; color: var(--muted); margin-top: 8px;">מהנדס העיר וראש מינהל הנדסה | עיריית אשדוד</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-            navigate: (viewId) => {
-                app.currentView = viewId;
-                app.render();
-                document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-                document.getElementById(`nav-${viewId}`).classList.add('active');
-            },
+  <!-- ══════════════════════════════ יעד 1 ══════════════════════════════ -->
+  <div class="slide" data-idx="1">
+    <div class="slide-body">
+      <div class="vision-panel">
+        <div class="vision-eyebrow">חזון מהנדס העיר</div>
+        <div class="vision-headline">אשדוד — <em>מטרופולין חברתי</em> מהגדולים במדינה</div>
+        <div class="vision-author">
+          <div class="author-name">אדריכל איאד יוסף בלעום</div>
+          <div class="author-title">מהנדס העיר וראש מינהל הנדסה</div>
+        </div>
+      </div>
+      <div class="goal-panel">
+        <div class="goal-index">
+          <div class="goal-num-circle">01</div>
+          <div class="goal-category">מגורים ותכנון עירוני</div>
+        </div>
+        <div class="goal-title">מטרופולין<br>למגורים</div>
+        <div class="goal-sentence">הפיכת אשדוד לאחת הערים האיכותיות ביותר למגורים — ריבוי אפשרויות מגורים לטובת הורדת מחירי הדיור.</div>
+        <div class="goal-points">
+          <div class="point"><div class="point-dot"></div><span>בנייה מסיבית בשכונות חדשות ובמיזמי התחדשות ברובעים הוותיקים</span></div>
+          <div class="point"><div class="point-dot"></div><span>ניצול אינטנסיבי ומיטבי של המקרקעין לצורך הרחבת היצע הדיור</span></div>
+          <div class="point"><div class="point-dot"></div><span>מיקוד בהנגשת דיור לדור הצעיר והפחתת מחירי השוק</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-            render: () => {
-                const container = document.getElementById('content-display');
-                container.innerHTML = '';
-                const view = document.createElement('div');
-                view.className = 'animate-fade-in';
+  <!-- ══════════════════════════════ יעד 2 ══════════════════════════════ -->
+  <div class="slide" data-idx="2">
+    <div class="slide-body">
+      <div class="vision-panel">
+        <div class="vision-eyebrow">חזון מהנדס העיר</div>
+        <div class="vision-headline">אשדוד — <em>מטרופולין חברתי</em> מהגדולים במדינה</div>
+        <div class="vision-author">
+          <div class="author-name">אדריכל איאד יוסף בלעום</div>
+          <div class="author-title">מהנדס העיר וראש מינהל הנדסה</div>
+        </div>
+      </div>
+      <div class="goal-panel">
+        <div class="goal-index">
+          <div class="goal-num-circle">02</div>
+          <div class="goal-category">חיזוק רובעים</div>
+        </div>
+        <div class="goal-title">עיר של<br>קהילות</div>
+        <div class="goal-sentence">חיזוק מרכזי הרובעים דרך עירוב שימושים — מסחר, תעסוקה ומוסדות ציבור קרובים לאזורי המגורים.</div>
+        <div class="goal-points">
+          <div class="point"><div class="point-dot"></div><span>עיבוי והקמת מוסדות ציבור בסמוך לאזורי מגורים</span></div>
+          <div class="point"><div class="point-dot"></div><span>עיצוב מיטבי ומוקפד של שטחי ציבור לאורך חזיתות הרחובות</span></div>
+          <div class="point"><div class="point-dot"></div><span>ביזור מרכזי שירות ותעסוקה לחיזוק הזהות השכונתית</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-                if (app.currentView === 'overview') {
-                    view.innerHTML = `
-                        <div class="grid grid-cols-4 gap-2 mb-4">
-                            <div class="metric-box"><p class="text-lg font-black text-blue-900">${DASHBOARD_DATA.plansInTreatment}</p><p class="text-[7px] text-gray-500 font-bold">תוכניות</p></div>
-                            <div class="metric-box"><p class="text-lg font-black text-blue-900">${DASHBOARD_DATA.infoRequests}</p><p class="text-[7px] text-gray-500 font-bold">מידע</p></div>
-                            <div class="metric-box"><p class="text-lg font-black text-blue-900">${DASHBOARD_DATA.permitsOpened}</p><p class="text-[7px] text-gray-500 font-bold">בקשות</p></div>
-                            <div class="metric-box"><p class="text-lg font-black text-blue-900">${DASHBOARD_DATA.startsApproved}</p><p class="text-[7px] text-gray-500 font-bold">אישורים</p></div>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <div class="bg-white p-2 rounded-xl border shadow-sm h-full">
-                                <h4 class="text-[9px] font-black text-gray-400 mb-1 border-r-4 border-blue-500 pr-2 uppercase">פילוח בקשות 2025</h4>
-                                <div class="chart-box" style="height: 150px;"><canvas id="c-permits"></canvas></div>
-                            </div>
-                            <div class="bg-blue-900 text-white p-3 rounded-xl flex flex-col justify-center shadow-lg">
-                                <h4 class="font-black text-sm mb-1 italic tracking-tighter">יעד: 500,000 תושבים</h4>
-                                <p class="text-[9px] opacity-90 leading-tight">אשדוד צומחת למטרופולין חברתי ותעסוקתי מהגדולים בישראל.</p>
-                            </div>
-                        </div>
-                    `;
-                    container.appendChild(view);
-                    app.initDonut('c-permits', ['תוספות', 'חדשה', 'ממ"ד', 'תמ"א', 'אחר'], DASHBOARD_DATA.permitsBreakdown);
-                } else if (app.currentView === 'housing') {
-                    view.innerHTML = `
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <div class="space-y-2">
-                                <h3 class="text-base font-black text-gray-800">פוטנציאל התחדשות</h3>
-                                <p class="text-[9px] text-gray-600 leading-tight"><strong>21,636</strong> יח"ד מוצעות בפינוי בינוי.</p>
-                                <div class="bg-orange-50 p-2 rounded border-r-4 border-orange-400">
-                                    <p class="text-[8px] text-gray-700 font-bold">הסכם גג: ${DASHBOARD_DATA.housing.roof.toLocaleString()} יח"ד.</p>
-                                </div>
-                            </div>
-                            <div class="bg-white p-2 rounded-xl border shadow-sm">
-                                <div class="chart-container" style="height: 150px;"><canvas id="c-housing"></canvas></div>
-                            </div>
-                        </div>
-                    `;
-                    container.appendChild(view);
-                    app.initBar('c-housing', ['גג', 'פינוי', 'יזמות', 'תמ"א'], [DASHBOARD_DATA.housing.roof, DASHBOARD_DATA.housing.urban, DASHBOARD_DATA.housing.private, DASHBOARD_DATA.housing.tama], '#3B82F6');
-                } else if (app.currentView === 'transport') {
-                    view.innerHTML = `
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <div class="bg-white p-2 rounded-xl border shadow-sm">
-                                <h4 class="text-[9px] font-black text-center mb-1 text-gray-400 uppercase">עדיפות תחבורתית</h4>
-                                <div class="chart-container" style="height: 150px;"><canvas id="c-transport"></canvas></div>
-                            </div>
-                            <div class="flex flex-col gap-2 justify-center">
-                                <div class="bg-green-100 p-2 rounded-lg border-r-4 border-green-600">
-                                    <h5 class="text-[9px] font-black text-green-900">תשתיות טעינה</h5>
-                                    <p class="text-[8px] text-green-800">פריסת עמדות ציבוריות.</p>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    container.appendChild(view);
-                    app.initHorizontalBar('c-transport', ['הולך רגל', 'אופניים', 'תחבורה', 'פרטי'], [10, 9, 8, 2]);
-                } else if (app.currentView === 'economy') {
-                    view.innerHTML = `
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <div class="bg-white p-2 rounded-xl border shadow-sm">
-                                <h4 class="text-[9px] font-black text-center mb-1 text-gray-400 uppercase">שטחים מאושרים (מ"ר)</h4>
-                                <div class="chart-container" style="height: 150px;"><canvas id="c-economy"></canvas></div>
-                            </div>
-                            <div class="space-y-2">
-                                <div class="bg-white p-2 rounded border-t-4 border-blue-900 shadow-sm">
-                                    <h4 class="font-black text-[9px] text-blue-900 uppercase">תעשייה ומסחר</h4>
-                                    <p class="text-[8px] text-gray-600">${DASHBOARD_DATA.economy.industry.toLocaleString()} מ"ר.</p>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    container.appendChild(view);
-                    app.initBar('c-economy', ['תעשייה', 'ציבורי', 'בי"ח', 'מלון'], [DASHBOARD_DATA.economy.industry, DASHBOARD_DATA.economy.public, DASHBOARD_DATA.economy.hospitals, DASHBOARD_DATA.economy.hotels], '#1E3A8A');
-                }
-            },
+  <!-- ══════════════════════════════ יעד 3 ══════════════════════════════ -->
+  <div class="slide" data-idx="3">
+    <div class="slide-body">
+      <div class="vision-panel">
+        <div class="vision-eyebrow">חזון מהנדס העיר</div>
+        <div class="vision-headline">אשדוד — <em>מטרופולין חברתי</em> מהגדולים במדינה</div>
+        <div class="vision-author">
+          <div class="author-name">אדריכל איאד יוסף בלעום</div>
+          <div class="author-title">מהנדס העיר וראש מינהל הנדסה</div>
+        </div>
+      </div>
+      <div class="goal-panel">
+        <div class="goal-index">
+          <div class="goal-num-circle">03</div>
+          <div class="goal-category">תחבורה ותשתיות</div>
+        </div>
+        <div class="goal-title">תחבורה<br>חכמה ונקייה</div>
+        <div class="goal-sentence">פיתוח מערכות תחבורה מתקדמות — העדפת הולכי רגל ורוכבי אופניים וחיבור לרשת הלאומית.</div>
+        <div class="goal-points">
+          <div class="point"><div class="point-dot"></div><span>הוספת תשתיות לתחבורה ציבורית חכמה ונקייה</span></div>
+          <div class="point"><div class="point-dot"></div><span>שיפור הבטיחות לרוכבי אופניים והולכי רגל</span></div>
+          <div class="point"><div class="point-dot"></div><span>הוספת מתחמי חניה ציבורית ועמדות טעינה לרכב חשמלי</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-            initDonut: (id, labels, data) => {
-                new Chart(document.getElementById(id), {
-                    type: 'doughnut',
-                    data: {
-                        labels: labels,
-                        datasets: [{ data: data, backgroundColor: ['#1E3A8A', '#F59E0B', '#10B981', '#8B5CF6', '#94A3B8'], borderWidth: 0 }]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 6, font: { size: 8 } } } } }
-                });
-            },
+  <!-- ══════════════════════════════ יעד 4 ══════════════════════════════ -->
+  <div class="slide" data-idx="4">
+    <div class="slide-body">
+      <div class="vision-panel">
+        <div class="vision-eyebrow">חזון מהנדס העיר</div>
+        <div class="vision-headline">אשדוד — <em>מטרופולין חברתי</em> מהגדולים במדינה</div>
+        <div class="vision-author">
+          <div class="author-name">אדריכל איאד יוסף בלעום</div>
+          <div class="author-title">מהנדס העיר וראש מינהל הנדסה</div>
+        </div>
+      </div>
+      <div class="goal-panel">
+        <div class="goal-index">
+          <div class="goal-num-circle">04</div>
+          <div class="goal-category">תעסוקה ומסחר</div>
+        </div>
+        <div class="goal-title">אלפי<br>מקומות עבודה</div>
+        <div class="goal-sentence">הרחבת הפעילות התעסוקתית — פיתוח אזורי תעסוקה תוך הפחתת פליטות ושיפור איכות הסביבה.</div>
+        <div class="goal-points">
+          <div class="point"><div class="point-dot"></div><span>הרחבה וגיוון שימושי הקרקע במוקדי תעסוקה ותחבורה</span></div>
+          <div class="point"><div class="point-dot"></div><span>עידוד הקמת אלפי מקומות תעסוקה חדשים</span></div>
+          <div class="point"><div class="point-dot"></div><span>הפחתה ניכרת של פליטת מזהמים — איכות סביבה ובריאות</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-            initBar: (id, labels, data, color) => {
-                new Chart(document.getElementById(id), {
-                    type: 'bar',
-                    data: { labels: labels, datasets: [{ data: data, backgroundColor: color, borderRadius: 3 }] },
-                    options: { responsive: true, maintainAspectRatio: false, scales: { y: { display: false }, x: { grid: { display: false }, ticks: { font: { size: 8 } } } }, plugins: { legend: { display: false } } }
-                });
-            },
+  <!-- ══════════════════════════════ יעד 5 ══════════════════════════════ -->
+  <div class="slide" data-idx="5">
+    <div class="slide-body">
+      <div class="vision-panel">
+        <div class="vision-eyebrow">חזון מהנדס העיר</div>
+        <div class="vision-headline">אשדוד — <em>מטרופולין חברתי</em> מהגדולים במדינה</div>
+        <div class="vision-author">
+          <div class="author-name">אדריכל איאד יוסף בלעום</div>
+          <div class="author-title">מהנדס העיר וראש מינהל הנדסה</div>
+        </div>
+      </div>
+      <div class="goal-panel">
+        <div class="goal-index">
+          <div class="goal-num-circle">05</div>
+          <div class="goal-category">חוף הים ותיירות</div>
+        </div>
+        <div class="goal-title">טיילת<br>ים התיכון</div>
+        <div class="goal-sentence">יצירת טיילת פעילה מהיפות בים התיכון — אלפי חדרי מלון ואטרקציות בינלאומיות.</div>
+        <div class="goal-points">
+          <div class="point"><div class="point-dot"></div><span>תכנון ופיתוח ניכר לאורך חוף הים — טיילת פעילה ומשגשגת</span></div>
+          <div class="point"><div class="point-dot"></div><span>עידוד הקמת אלפי חדרי מלון מסוגים שונים</span></div>
+          <div class="point"><div class="point-dot"></div><span>הקמת אטרקציות ומתקנים לממוש הפוטנציאל התיירותי</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-            initHorizontalBar: (id, labels, data) => {
-                new Chart(document.getElementById(id), {
-                    type: 'bar',
-                    data: { labels: labels, datasets: [{ data: data, backgroundColor: ['#F59E0B', '#10B981', '#3B82F6', '#CBD5E1'], borderRadius: 3 }] },
-                    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { display: false }, y: { grid: { display: false }, ticks: { font: { size: 8 } } } }, plugins: { legend: { display: false } } }
-                });
-            }
-        };
+  <!-- ══════════════════════════════ יעד 6 ══════════════════════════════ -->
+  <div class="slide" data-idx="6">
+    <div class="slide-body">
+      <div class="vision-panel">
+        <div class="vision-eyebrow">חזון מהנדס העיר</div>
+        <div class="vision-headline">אשדוד — <em>מטרופולין חברתי</em> מהגדולים במדינה</div>
+        <div class="vision-author">
+          <div class="author-name">אדריכל איאד יוסף בלעום</div>
+          <div class="author-title">מהנדס העיר וראש מינהל הנדסה</div>
+        </div>
+      </div>
+      <div class="goal-panel">
+        <div class="goal-index">
+          <div class="goal-num-circle">06</div>
+          <div class="goal-category">ניהול ורישוי</div>
+        </div>
+        <div class="goal-title">מסלולים<br>ירוקים</div>
+        <div class="goal-sentence">פישוט וקיצור הליכי תכנון ורישוי — צוותי משימה להסרת חסמים ויצירת שקיפות מלאה.</div>
+        <div class="goal-points">
+          <div class="point"><div class="point-dot"></div><span>הקמת צוותי משימה לסרת חסמים וקידום מיזמים אסטרטגיים</span></div>
+          <div class="point"><div class="point-dot"></div><span>התאמת המבנה הארגוני של המינהל לצורכי הפיתוח המואץ</span></div>
+          <div class="point"><div class="point-dot"></div><span>גישה בלתי אמצעית למאגרי המידע ההנדסי לסיוע ליזמים</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        window.onload = () => {
-            Chart.defaults.font.size = 9;
-            Chart.defaults.font.weight = 'bold';
-            app.navigate('overview');
-        };
-    </script>
+</div>
+
+<!-- Navigation Controls -->
+<button class="nav-btn nav-prev" onclick="move(-1)" title="הקודם">&#8250;</button>
+<button class="nav-btn nav-next" onclick="move(1)" title="הבא">&#8249;</button>
+
+<footer class="slide-footer">
+  <div>עיריית אשדוד — מינהל הנדסה | תוכנית עבודה 2026</div>
+  <div>ניווט באמצעות לשוניות, חצים או Space</div>
+</footer>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const tabs   = document.querySelectorAll('.tab-item');
+  const total  = slides.length;
+  let current  = 0;
+
+  function updateUI() {
+    // Update slides
+    slides.forEach((s, i) => s.classList.toggle('active', i === current));
+    
+    // Update tabs
+    tabs.forEach((t, i) => t.classList.toggle('active', i === current));
+    
+    // Update counter
+    document.getElementById('active-slide-num').innerText = `0${current + 1} / 0${total}`;
+  }
+
+  function goTo(idx) {
+    if (idx === current) return;
+    current = Math.max(0, Math.min(idx, total - 1));
+    updateUI();
+  }
+
+  function move(dir) { 
+    let target = current + dir;
+    if (target >= total) target = 0;
+    if (target < 0) target = total - 1;
+    goTo(target); 
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') move(1);
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') move(-1);
+    if (e.key === ' ') { e.preventDefault(); move(1); }
+  });
+
+  updateUI();
+</script>
 </body>
 </html>
