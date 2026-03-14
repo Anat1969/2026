@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <!-- Meta tags to force Canva to recognize this as an interactive App -->
-    <title>Dashboard Ashdod 2026</title>
-    <meta property="og:title" content="חזון אשדוד 2026: דשבורד אינטראקטיבי">
+    <!-- Meta tags to force Canva to recognize this as a Rich Embed/App -->
+    <title>חזון אשדוד 2026</title>
+    <meta property="og:title" content="אשדוד 2026: דשבורד אינטראקטיבי">
     <meta property="og:description" content="דוח אסטרטגי ויעדי פיתוח - מינהל הנדסה אשדוד">
-    <meta property="og:type" content="video.other"> <!-- Trick to force embedder to treat as rich media -->
-    <meta property="og:url" content="https://anat1969.github.io/2026/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="חזון אשדוד 2026">
     
-    <!-- CSS for App-like experience -->
+    <!-- CSS and Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap" rel="stylesheet">
@@ -23,39 +24,39 @@
             color: #1F2937;
             margin: 0;
             padding: 0;
-            overflow: hidden; /* No scrollbars on the main body */
+            overflow: hidden; /* מניעת גלילה כפולה בתוך קנבה */
+            height: 100vh;
+            width: 100vw;
         }
         
-        .app-container {
+        .app-shell {
             display: flex;
             flex-direction: column;
             height: 100vh;
             width: 100vw;
-            border: 1px solid #e5e7eb;
         }
 
-        .chart-box {
+        .chart-container {
             position: relative;
             width: 100%;
             height: 100%;
-            min-height: 220px;
+            min-height: 200px;
         }
 
-        .nav-button {
+        .nav-btn {
             cursor: pointer;
-            transition: all 0.2s ease-in-out;
+            transition: all 0.2s ease;
             white-space: nowrap;
         }
 
-        .nav-button.active {
+        .nav-btn.active {
             background-color: #1E3A8A;
             color: white;
             border-radius: 0.5rem;
             font-weight: 900;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
-        .metric-card {
+        .metric-box {
             background: white;
             border: 1px solid #e2e8f0;
             border-radius: 0.75rem;
@@ -64,79 +65,68 @@
         }
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        h1 { line-height: 1; }
         
-        /* Smooth transitions between views */
-        .view-transition {
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* התאמת גדלים להטמעה קטנה */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.25rem !important; }
+            .nav-btn { padding: 0.4rem 0.6rem !important; font-size: 0.85rem !important; }
         }
     </style>
 </head>
 <body>
 
-    <div class="app-container">
-        <!-- Header -->
-        <header class="bg-white border-b px-4 py-3 flex justify-between items-center shadow-sm">
+    <div class="app-shell">
+        <!-- Header קומפקטי -->
+        <header class="bg-white border-b px-4 py-2 flex justify-between items-center shadow-sm">
             <div>
-                <h1 class="text-2xl md:text-3xl font-black text-blue-900">אשדוד 2026</h1>
-                <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">מינהל ההנדסה | דוח אסטרטגי</p>
+                <h1 class="text-2xl md:text-3xl font-black text-blue-900 leading-tight">אשדוד 2026</h1>
+                <p class="text-[9px] text-gray-500 font-bold uppercase tracking-widest">מינהל ההנדסה | יעדים אסטרטגיים</p>
             </div>
             <div class="text-left border-r pr-3 border-gray-200">
-                <p class="text-sm font-black text-gray-700">אדר' איאד בלעום</p>
-                <p class="text-[9px] text-gray-400 font-bold">מהנדס העיר</p>
+                <p class="text-xs md:text-sm font-black text-gray-700 leading-none">אדר' איאד בלעום</p>
+                <p class="text-[8px] text-gray-400 font-bold uppercase">מהנדס העיר</p>
             </div>
         </header>
         
-        <!-- Tabs -->
+        <!-- ניווט לשוניות -->
         <nav class="bg-blue-50/40 p-1 border-b overflow-x-auto no-scrollbar">
-            <ul class="flex space-x-reverse space-x-1 justify-center">
-                <li><button onclick="app.navigate('overview')" id="nav-overview" class="nav-button py-2 px-4 text-sm font-bold text-gray-600 active">סיכום 2025</button></li>
-                <li><button onclick="app.navigate('housing')" id="nav-housing" class="nav-button py-2 px-4 text-sm font-bold text-gray-600">בינוי ודיור</button></li>
-                <li><button onclick="app.navigate('transport')" id="nav-transport" class="nav-button py-2 px-4 text-sm font-bold text-gray-600">תחבורה</button></li>
-                <li><button onclick="app.navigate('economy')" id="nav-economy" class="nav-button py-2 px-4 text-sm font-bold text-gray-600">כלכלה וחוף</button></li>
+            <ul class="flex space-x-reverse space-x-1 justify-center min-w-max">
+                <li><button onclick="app.navigate('overview')" id="nav-overview" class="nav-btn py-1.5 px-4 text-sm font-bold text-gray-600 active">סיכום 2025</button></li>
+                <li><button onclick="app.navigate('housing')" id="nav-housing" class="nav-btn py-1.5 px-4 text-sm font-bold text-gray-600">בינוי ודיור</button></li>
+                <li><button onclick="app.navigate('transport')" id="nav-transport" class="nav-btn py-1.5 px-4 text-sm font-bold text-gray-600">תחבורה</button></li>
+                <li><button onclick="app.navigate('economy')" id="nav-economy" class="nav-btn py-1.5 px-4 text-sm font-bold text-gray-600">כלכלה וחוף</button></li>
             </ul>
         </nav>
 
-        <main id="view-container" class="flex-grow overflow-y-auto p-4 no-scrollbar">
-            <!-- View content will be injected here -->
+        <!-- אזור תוכן -->
+        <main id="content-display" class="flex-grow overflow-y-auto p-4 no-scrollbar">
+            <!-- התוכן מוזרק כאן על ידי JS -->
         </main>
         
-        <footer class="bg-gray-100 border-t py-1.5 px-4 text-center">
-            <p class="text-[8px] font-bold text-gray-400 uppercase tracking-widest">נתוני אמת | עדכון אחרון: מרץ 2025</p>
+        <footer class="bg-gray-100 border-t py-1 px-4 text-center">
+            <p class="text-[7px] font-bold text-gray-400 uppercase tracking-widest leading-none">נתוני אמת אשדוד | עודכן מרץ 2025</p>
         </footer>
     </div>
 
     <script>
         /**
-         * DASHBOARD DATA CENTER - מרכז עדכון הנתונים
-         * שנו כאן את המספרים והם יתעדכנו בכל הדשבורד אוטומטית
+         * מרכז הנתונים (קל לעדכון)
          */
         const DASHBOARD_DATA = {
             plansInTreatment: 153,
             infoRequests: 798,
             permitsOpened: 491,
             startsApproved: 168,
-            
-            // פילוח היתרים באחוזים (סך הכל 100)
-            permitsBreakdown: [68, 10, 10, 7, 5], 
-            
-            // פוטנציאל יח"ד
+            permitsBreakdown: [68, 10, 10, 7, 5],
             housing: {
-                roofAgreement: 24000,
-                urbanRenewal: 21636,
-                privateEntrepreneurship: 16185,
-                tama38: 11599
+                roof: 24000,
+                urban: 21636,
+                private: 16185,
+                tama: 11599
             },
-            
-            // שטחים במ"ר
             economy: {
-                industryCommerce: 97581,
-                publicBuildings: 65057,
+                industry: 97581,
+                public: 65057,
                 hospitals: 49039,
                 hotels: 23343
             }
@@ -148,89 +138,88 @@
             navigate: (viewId) => {
                 app.currentView = viewId;
                 app.render();
-                // Update nav styling
-                document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
                 document.getElementById(`nav-${viewId}`).classList.add('active');
             },
 
             render: () => {
-                const container = document.getElementById('view-container');
+                const container = document.getElementById('content-display');
                 container.innerHTML = '';
-                const viewDiv = document.createElement('div');
-                viewDiv.className = 'view-transition';
+                const view = document.createElement('div');
+                view.className = 'animate-fade-in';
 
                 if (app.currentView === 'overview') {
-                    viewDiv.innerHTML = `
+                    view.innerHTML = `
                         <div class="grid grid-cols-4 gap-2 mb-4">
-                            <div class="metric-card"><p class="text-xl font-black text-blue-900">${DASHBOARD_DATA.plansInTreatment}</p><p class="text-[8px] text-gray-500 font-bold uppercase">תוכניות</p></div>
-                            <div class="metric-card"><p class="text-xl font-black text-blue-900">${DASHBOARD_DATA.infoRequests}</p><p class="text-[8px] text-gray-500 font-bold uppercase">מידע</p></div>
-                            <div class="metric-card"><p class="text-xl font-black text-blue-900">${DASHBOARD_DATA.permitsOpened}</p><p class="text-[8px] text-gray-500 font-bold uppercase">בקשות</p></div>
-                            <div class="metric-card"><p class="text-xl font-black text-blue-900">${DASHBOARD_DATA.startsApproved}</p><p class="text-[8px] text-gray-500 font-bold uppercase">אישורים</p></div>
+                            <div class="metric-box"><p class="text-lg font-black text-blue-900">${DASHBOARD_DATA.plansInTreatment}</p><p class="text-[7px] text-gray-500 font-bold">תוכניות</p></div>
+                            <div class="metric-box"><p class="text-lg font-black text-blue-900">${DASHBOARD_DATA.infoRequests}</p><p class="text-[7px] text-gray-500 font-bold">מידע</p></div>
+                            <div class="metric-box"><p class="text-lg font-black text-blue-900">${DASHBOARD_DATA.permitsOpened}</p><p class="text-[7px] text-gray-500 font-bold">בקשות</p></div>
+                            <div class="metric-box"><p class="text-lg font-black text-blue-900">${DASHBOARD_DATA.startsApproved}</p><p class="text-[7px] text-gray-500 font-bold">אישורים</p></div>
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="bg-white p-3 rounded-xl border shadow-sm">
-                                <h4 class="text-[10px] font-black text-gray-400 mb-2 border-r-4 border-blue-500 pr-2 uppercase">פילוח בקשות להיתר</h4>
-                                <div class="chart-box"><canvas id="chart-permits"></canvas></div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="bg-white p-2 rounded-xl border shadow-sm h-full">
+                                <h4 class="text-[9px] font-black text-gray-400 mb-1 border-r-4 border-blue-500 pr-2">פילוח בקשות 2025</h4>
+                                <div class="chart-container" style="height: 150px;"><canvas id="c-permits"></canvas></div>
                             </div>
-                            <div class="bg-blue-900 text-white p-4 rounded-xl flex flex-col justify-center shadow-lg">
-                                <h4 class="font-black text-lg mb-2 italic tracking-tighter">יעד: 500,000 תושבים</h4>
-                                <p class="text-[10px] opacity-90 leading-normal text-justify">אשדוד צומחת למטרופולין. דגש על ציפוף לאורך צירי המתע"ן ואיכות המרחב הציבורי.</p>
+                            <div class="bg-blue-900 text-white p-3 rounded-xl flex flex-col justify-center shadow-lg">
+                                <h4 class="font-black text-sm mb-1 italic">חזון: 500,000 תושבים</h4>
+                                <p class="text-[9px] opacity-90 leading-tight">אשדוד צומחת למטרופולין חברתי ותעסוקתי מהגדולים בישראל.</p>
                             </div>
                         </div>
                     `;
-                    container.appendChild(viewDiv);
-                    app.initDonut('chart-permits', ['תוספות', 'חדשה', 'ממ"ד', 'תמ"א', 'אחר'], DASHBOARD_DATA.permitsBreakdown);
+                    container.appendChild(view);
+                    app.initDonut('c-permits', ['תוספות', 'חדשה', 'ממ"ד', 'תמ"א', 'אחר'], DASHBOARD_DATA.permitsBreakdown);
                 } else if (app.currentView === 'housing') {
-                    viewDiv.innerHTML = `
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    view.innerHTML = `
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <div class="space-y-2">
-                                <h3 class="text-lg font-black text-gray-800">התחדשות ודיור</h3>
-                                <p class="text-[10px] text-gray-600 leading-tight">סה"כ מוצעות כ-<strong>${DASHBOARD_DATA.housing.urbanRenewal.toLocaleString()}</strong> יח"ד במתחמי פינוי בינוי.</p>
+                                <h3 class="text-base font-black text-gray-800">פוטנציאל התחדשות</h3>
+                                <p class="text-[9px] text-gray-600 leading-tight"><strong>21,636</strong> יח"ד מוצעות בפינוי בינוי.</p>
                                 <div class="bg-orange-50 p-2 rounded border-r-4 border-orange-400">
-                                    <p class="text-[9px] text-gray-700 font-bold">הסכם גג: ${DASHBOARD_DATA.housing.roofAgreement.toLocaleString()} יח"ד.</p>
+                                    <p class="text-[8px] text-gray-700 font-bold">הסכם גג: ${DASHBOARD_DATA.housing.roof.toLocaleString()} יח"ד.</p>
                                 </div>
                             </div>
-                            <div class="bg-white p-3 rounded-xl border shadow-sm">
-                                <div class="chart-box"><canvas id="chart-housing"></canvas></div>
+                            <div class="bg-white p-2 rounded-xl border shadow-sm">
+                                <div class="chart-container" style="height: 150px;"><canvas id="c-housing"></canvas></div>
                             </div>
                         </div>
                     `;
-                    container.appendChild(viewDiv);
-                    app.initBar('chart-housing', ['גג', 'פינוי', 'יזמות', 'תמ"א'], [DASHBOARD_DATA.housing.roofAgreement, DASHBOARD_DATA.housing.urbanRenewal, DASHBOARD_DATA.housing.privateEntrepreneurship, DASHBOARD_DATA.housing.tama38], '#3B82F6');
+                    container.appendChild(view);
+                    app.initBar('c-housing', ['גג', 'פינוי', 'יזמות', 'תמ"א'], [DASHBOARD_DATA.housing.roof, DASHBOARD_DATA.housing.urban, DASHBOARD_DATA.housing.private, DASHBOARD_DATA.housing.tama], '#3B82F6');
                 } else if (app.currentView === 'transport') {
-                    viewDiv.innerHTML = `
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="bg-white p-3 rounded-xl border shadow-sm">
-                                <h4 class="text-[10px] font-black text-center mb-2 text-gray-400 uppercase">עדיפות תחבורתית</h4>
-                                <div class="chart-box"><canvas id="chart-transport"></canvas></div>
+                    view.innerHTML = `
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="bg-white p-2 rounded-xl border shadow-sm">
+                                <h4 class="text-[9px] font-black text-center mb-1 text-gray-400 uppercase">עדיפות תחבורתית</h4>
+                                <div class="chart-container" style="height: 150px;"><canvas id="c-transport"></canvas></div>
                             </div>
                             <div class="flex flex-col gap-2 justify-center">
-                                <div class="bg-green-100 p-3 rounded-lg border-r-4 border-green-600">
-                                    <h5 class="text-[10px] font-black text-green-900">תשתיות טעינה</h5>
-                                    <p class="text-[9px] text-green-800">פריסת עמדות ציבוריות בכל העיר.</p>
+                                <div class="bg-green-100 p-2 rounded-lg border-r-4 border-green-600">
+                                    <h5 class="text-[9px] font-black text-green-900">תשתיות טעינה</h5>
+                                    <p class="text-[8px] text-green-800">פריסת עמדות ציבוריות.</p>
                                 </div>
                             </div>
                         </div>
                     `;
-                    container.appendChild(viewDiv);
-                    app.initHorizontalBar('chart-transport', ['הולך רגל', 'אופניים', 'תחבורה', 'פרטי'], [10, 9, 8, 2]);
+                    container.appendChild(view);
+                    app.initHorizontalBar('c-transport', ['הולך רגל', 'אופניים', 'תחבורה', 'פרטי'], [10, 9, 8, 2]);
                 } else if (app.currentView === 'economy') {
-                    viewDiv.innerHTML = `
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="bg-white p-3 rounded-xl border shadow-sm">
-                                <h4 class="text-[10px] font-black text-center mb-2 text-gray-400 uppercase">שטחים מאושרים (מ"ר)</h4>
-                                <div class="chart-box"><canvas id="chart-economy"></canvas></div>
+                    view.innerHTML = `
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="bg-white p-2 rounded-xl border shadow-sm">
+                                <h4 class="text-[9px] font-black text-center mb-1 text-gray-400 uppercase">שטחים מאושרים (מ"ר)</h4>
+                                <div class="chart-container" style="height: 150px;"><canvas id="c-economy"></canvas></div>
                             </div>
                             <div class="space-y-2">
-                                <div class="bg-white p-3 rounded-lg border shadow-sm border-t-4 border-blue-900">
-                                    <h4 class="font-black text-[10px] text-blue-900">תעשייה ומסחר</h4>
-                                    <p class="text-[9px] text-gray-600">${DASHBOARD_DATA.economy.industryCommerce.toLocaleString()} מ"ר אושרו ב-2025.</p>
+                                <div class="bg-white p-2 rounded border-t-4 border-blue-900 shadow-sm">
+                                    <h4 class="font-black text-[9px] text-blue-900 uppercase">תעשייה ומסחר</h4>
+                                    <p class="text-[8px] text-gray-600">${DASHBOARD_DATA.economy.industry.toLocaleString()} מ"ר.</p>
                                 </div>
                             </div>
                         </div>
                     `;
-                    container.appendChild(viewDiv);
-                    app.initBar('chart-economy', ['תעשייה', 'ציבורי', 'בי"ח', 'מלון'], [DASHBOARD_DATA.economy.industryCommerce, DASHBOARD_DATA.economy.publicBuildings, DASHBOARD_DATA.economy.hospitals, DASHBOARD_DATA.economy.hotels], '#1E3A8A');
+                    container.appendChild(view);
+                    app.initBar('c-economy', ['תעשייה', 'ציבורי', 'בי"ח', 'מלון'], [DASHBOARD_DATA.economy.industry, DASHBOARD_DATA.economy.public, DASHBOARD_DATA.economy.hospitals, DASHBOARD_DATA.economy.hotels], '#1E3A8A');
                 }
             },
 
@@ -241,29 +230,29 @@
                         labels: labels,
                         datasets: [{ data: data, backgroundColor: ['#1E3A8A', '#F59E0B', '#10B981', '#8B5CF6', '#94A3B8'], borderWidth: 0 }]
                     },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 8, font: { size: 9 } } } } }
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 6, font: { size: 8 } } } } }
                 });
             },
 
             initBar: (id, labels, data, color) => {
                 new Chart(document.getElementById(id), {
                     type: 'bar',
-                    data: { labels: labels, datasets: [{ data: data, backgroundColor: color, borderRadius: 4 }] },
-                    options: { responsive: true, maintainAspectRatio: false, scales: { y: { display: false }, x: { grid: { display: false }, ticks: { font: { size: 9 } } } }, plugins: { legend: { display: false } } }
+                    data: { labels: labels, datasets: [{ data: data, backgroundColor: color, borderRadius: 3 }] },
+                    options: { responsive: true, maintainAspectRatio: false, scales: { y: { display: false }, x: { grid: { display: false }, ticks: { font: { size: 8 } } } }, plugins: { legend: { display: false } } }
                 });
             },
 
             initHorizontalBar: (id, labels, data) => {
                 new Chart(document.getElementById(id), {
                     type: 'bar',
-                    data: { labels: labels, datasets: [{ data: data, backgroundColor: ['#F59E0B', '#10B981', '#3B82F6', '#CBD5E1'], borderRadius: 4 }] },
-                    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { display: false }, y: { grid: { display: false }, ticks: { font: { size: 9 } } } }, plugins: { legend: { display: false } } }
+                    data: { labels: labels, datasets: [{ data: data, backgroundColor: ['#F59E0B', '#10B981', '#3B82F6', '#CBD5E1'], borderRadius: 3 }] },
+                    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { display: false }, y: { grid: { display: false }, ticks: { font: { size: 8 } } } }, plugins: { legend: { display: false } } }
                 });
             }
         };
 
         window.onload = () => {
-            Chart.defaults.font.size = 10;
+            Chart.defaults.font.size = 9;
             Chart.defaults.font.weight = 'bold';
             app.navigate('overview');
         };
